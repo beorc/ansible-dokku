@@ -1,0 +1,10 @@
+---
+
+- name: install git
+  apt: "name=git state=latest update_cache=yes"
+
+- name: install make
+  apt: "name=make state=latest update_cache=yes"
+
+- name: Add user to the docker group
+  command: sudo gpasswd -a {{ssh_user}} docker

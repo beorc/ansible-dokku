@@ -1,0 +1,19 @@
+---
+
+- hosts: dokku
+  gather_facts: no
+  sudo: yes
+
+  vars:
+    - dokku_version: "0.3.22"
+    - private_key_file: ~/.ssh/langtrainer-aws.pem
+    - ssh_user: ubuntu
+    #- dokku_vhost: api-clj.langtrainer.com
+    - dokku_plugins: []
+    - sshkeys: []
+
+  roles:
+    - yoshzz.docker
+    - dependencies
+    - dokku
+    - sshkeys

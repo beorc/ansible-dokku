@@ -1,0 +1,5 @@
+---
+
+- name: Add user ssh public keys
+  sudo: false
+  local_action: command bash -c "cat ~/.ssh/id_rsa.pub | ssh -i {{private_key_file}} {{ssh_user}}@{{ansible_ssh_host}} \"sudo sshcommand acl-add dokku progrium\""

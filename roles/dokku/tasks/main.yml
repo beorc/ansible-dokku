@@ -1,0 +1,22 @@
+---
+
+- name: clone dokku repository
+  git: "repo=https://github.com/progrium/dokku.git dest=/home/{{ ssh_user }}/dokku version=v{{ dokku_version }}"
+  sudo: no
+
+- name: make install dokku
+  shell: 'cd /home/{{ ssh_user }}/dokku;make install'
+  sudo: yes
+
+#- name: "Configure dokku vhost setting"
+  #copy: "dest=/home/dokku/VHOST content={{ dokku_vhost }} owner=dokku group=root"
+  #sudo: yes
+
+- name: "Configure dokku build_env setting"
+  template: "src=BUILD_ENV dest=/home/dokku/BUILD_ENV owner=dokku group=root"
+  sudo: yes
+
+- name: "Install plugins if specified"
+  git: "repo={{ item.repo }} dest=/var/lib/dokku/plugins/{{ item.name }} accept_hostkey=yes version={{ item.version|default('master') }}"
+  with_items: dokku_plugins
+  sudo: yes
